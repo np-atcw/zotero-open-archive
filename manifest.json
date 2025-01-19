@@ -7,7 +7,7 @@
 	"applications": {
 		"zotero": {
 			"id": "zotero-open-archive@atcwilliams.com.au",
-			"update_url": "https://github.com/np-atcw/zotero-open-archive/updates/updates-2.0.json",
+			"update_url": "https://github.com/np-atcw/zotero-open-archive/releases/download/alpha-2.0/updates-2.0.json",
 			"strict_min_version": "7.0",
 			"strict_max_version": "7.1.*"
 		}
