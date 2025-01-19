@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+
+rm -rf ../zotero-open-archive-build
+mkdir ../zotero-open-archive-build
+zip -r ../zotero-open-archive-build/zotero-open-archive-2.0.xpi *
+
+cp updates-2.0.json.tmpl ../zotero-open-archive-build
+cd ../zotero-open-archive-build
+
+jq ".addons[\"zotero-open-archive@atcwilliams.com.au\"].updates[0].update_hash = \"sha256:`shasum -a 256 zotero-open-archive-2.0.xpi | cut -d' ' -f1`\"" updates-2.0.json.tmpl > updates-2.0.json
+rm updates-2.0.json.tmpl

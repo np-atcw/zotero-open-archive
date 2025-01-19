@@ -1,2 +1,2 @@
 zotero-open-archive =
-    .label = Open Archive
+    .label = Open File at Archive Location

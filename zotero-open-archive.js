@@ -21,24 +21,13 @@ ZoteroOpenArchive = {
 	addToWindow(window) {
 		let doc = window.document;
 		
-		// Add a stylesheet to the main Zotero pane
-		// let link1 = doc.createElement('link');
-		// link1.id = 'zotero-open-archive-stylesheet';
-		// link1.type = 'text/css';
-		// link1.rel = 'stylesheet';
-		// link1.href = this.rootURI + 'style.css';
-		// doc.documentElement.appendChild(link1);
-		// this.storeAddedElement(link1);
-		
 		// Use Fluent for localization
 		window.MozXULElement.insertFTLIfNeeded("zotero-open-archive.ftl");
 		
 		// Add menu option
 		let menuitem = doc.createXULElement('menuitem');
 		menuitem.id = 'zotero-open-archive';
-		//menuitem.setAttribute('type', 'checkbox');
 		menuitem.setAttribute('data-l10n-id', 'zotero-open-archive');
-		// MozMenuItem#checked is available in Zotero 7
 		menuitem.addEventListener('command', () => {
 			ZoteroOpenArchive.openArchive();
 		});
@@ -67,7 +56,7 @@ ZoteroOpenArchive = {
 		for (let id of this.addedElementIDs) {
 			doc.getElementById(id)?.remove();
 		}
-		doc.querySelector('[href="make-it-red.ftl"]').remove();
+		doc.querySelector('[href="zotero-open-archive.ftl"]').remove();
 	},
 	
 	removeFromAllWindows() {
@@ -81,10 +70,18 @@ ZoteroOpenArchive = {
 	openArchive() {
 		var zp = Zotero.getActiveZoteroPane();
 		item = zp.getSelectedItems()[0]
-		archive = item.getField('archive');
-		archive.replace('"', '')
-		if (archive.search(/[.]pdf$/i) != -1 || archive.search(/[.]docx$/i) != -1) {
-			log('Opening ${archive}')
+		// TODO: Allow setting to specify archive, archiveLocation, etc.
+		archive = item.getField('archiveLocation');
+		// TODO: Provide potential Windows drive mappings to search through.
+		archive = archive.replaceAll("\"", "")
+		if (archive.search(/[.]pdf$/i) != -1 ||
+			archive.search(/[.]docx$/i) != -1 ||
+		    archive.search(/[.]pptx$/i) != -1 ||
+		    archive.search(/[.]doc$/i) != -1 ||
+		    archive.search(/[.]odt$/i) != -1 ||
+		    archive.search(/[.]ppt$/i) != -1 ||
+			archive.search(/[.]odp$/i) != -1) {
+			log('Opening ' + archive)
 			Zotero.launchFile(archive)
 		}
 	},
